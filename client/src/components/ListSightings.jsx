@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react'
 // import * as ioicons from 'react-icons/io5'
 // import MyForm from './Form';
 import SightingCard from './SightingCard';
-import Masonry, {ResponsiveMasonry} from "react-responsive-masonry"
+import Masonry, {ResponsiveMasonry} from "react-responsive-masonry";
+import './ListSightings.css'
 
 const ListSightings = () => {
 
@@ -63,7 +64,7 @@ const ListSightings = () => {
 
     return (
         <div className="mybody">
-        <div className="list-students">
+        <div className="list-sightings">
             <h2>Endangered Animals</h2>
             <ResponsiveMasonry
                 columnsCountBreakPoints={{350: 1, 750: 2, 900: 3}}
