@@ -1,28 +1,29 @@
 import React, { useState, useEffect } from 'react'
-import * as ioicons from 'react-icons/io5'
-import MyForm from './Form';
-import Student from './Student';
+// import * as ioicons from 'react-icons/io5'
+// import MyForm from './Form';
+import SightingCard from './SightingCard';
+import Masonry, {ResponsiveMasonry} from "react-responsive-masonry"
 
-const ListStudents = () => {
+const ListSightings = () => {
 
     // this is my original state with an array of students 
-    const [students, setStudents] = useState([]);
+    const [sightings, setSightings] = useState([]);
 
     //this is the state needed for the UpdateRequest
-    const [editingStudent, setEditingStudent] = useState(null)
+    //const [editingStudent, setEditingStudent] = useState(null)
 
-    const loadStudents = () => {
+    const loadSightings = () => {
         // A function to fetch the list of students that will be load anytime that list change
-        fetch("http://localhost:8080/api/students")
+        fetch("http://localhost:8080/api/sightings")
             .then((response) => response.json())
-            .then((students) => {
-                setStudents(students);
+            .then((sightings) => {
+                setSightings(sightings);
             });
     }
 
     useEffect(() => {
-        loadStudents();
-    }, [students]);
+        loadSightings();
+    }, [sightings]);
 
     const onSaveStudent = (newStudent) => {
         //console.log(newStudent, "From the parent - List of Students");
@@ -62,17 +63,21 @@ const ListStudents = () => {
     return (
         <div className="mybody">
         <div className="list-students">
-            <h2>Techtonica Participants </h2>
-            <ul>
-                {students.map((student) => {
-                    return <li key={student.id}> <Student student={student} toDelete={onDelete} toUpdate={onUpdate} /></li>
+            <h2>Endangered Animlas</h2>
+            <ResponsiveMasonry
+                columnsCountBreakPoints={{350: 1, 750: 2, 900: 3}}
+            >
+            <Masonry>
+                {sightings.map((sighting) => {
+                    return <li key={sighting.id}> <SightingCard sightings={sighting} toDelete={onDelete} toUpdate={onUpdate} /></li>
                 })}
-            </ul>
+            </Masonry>
+            </ResponsiveMasonry>
         </div>
-        <MyForm key={editingStudent ? editingStudent.id : null} onSaveStudent={onSaveStudent} editingStudent={editingStudent} onUpdateStudent={updateStudent} />
+        {/* <MyForm key={editingStudent ? editingStudent.id : null} onSaveStudent={onSaveStudent} editingStudent={editingStudent} onUpdateStudent={updateStudent} /> */}
         </div>
     );
 }
 
 
-export default ListStudents
+export default ListSightings

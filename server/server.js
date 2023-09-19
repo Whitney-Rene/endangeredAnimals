@@ -15,21 +15,21 @@ app.get('/', (req, res) => {
     res.json({ message: 'Hola, from My template ExpressJS with React-Vite' });
 });
 
-// create the get request for students in the endpoint '/api/individuals'
-app.get('/api/individuals', async (req, res) => {
-    try {
-        const { rows: individuals } = await db.query("SELECT * FROM individuals");
-        res.send(individuals);
-    } catch (e) {
-        return res.status(400).json({ e });
-    }
-});
-
 // create the get request for students in the endpoint '/api/species'
 app.get('/api/species', async (req, res) => {
     try {
         const { rows: species } = await db.query("SELECT * FROM species");
         res.send(species);
+    } catch (e) {
+        return res.status(400).json({ e });
+    }
+});
+
+// create the get request for students in the endpoint '/api/individuals'
+app.get('/api/individuals', async (req, res) => {
+    try {
+        const { rows: individuals } = await db.query("SELECT * FROM individuals");
+        res.send(individuals);
     } catch (e) {
         return res.status(400).json({ e });
     }
