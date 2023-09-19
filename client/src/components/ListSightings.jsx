@@ -23,7 +23,8 @@ const ListSightings = () => {
 
     useEffect(() => {
         loadSightings();
-    }, [sightings]);
+    }, []);
+    //[sightings]
 
     const onSaveStudent = (newStudent) => {
         //console.log(newStudent, "From the parent - List of Students");
@@ -63,13 +64,13 @@ const ListSightings = () => {
     return (
         <div className="mybody">
         <div className="list-students">
-            <h2>Endangered Animlas</h2>
+            <h2>Endangered Animals</h2>
             <ResponsiveMasonry
                 columnsCountBreakPoints={{350: 1, 750: 2, 900: 3}}
             >
             <Masonry>
                 {sightings.map((sighting) => {
-                    return <li key={sighting.id}> <SightingCard sightings={sighting} toDelete={onDelete} toUpdate={onUpdate} /></li>
+                    return <SightingCard key={sighting.id} sightings={sighting} toDelete={onDelete} toUpdate={onUpdate} />
                 })}
             </Masonry>
             </ResponsiveMasonry>

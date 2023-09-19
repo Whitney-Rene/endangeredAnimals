@@ -6,8 +6,8 @@ import { format } from 'date-fns';
 
 
 const SightingCard = ({sightings, toUpdate, toDelete}) => {
-
-    const formattedSightTime = format(new Date(sightings.sighttime), 'MMMM dd, yyyy h:mm a');
+    console.log(sightings);
+    const formattedSightTime = format(new Date(sightings.sighttime), 'MMMM dd, yyyy @ h:mm a');
     const onUpdate = (toUpdateStudent) => {
         toUpdate(toUpdateStudent)
     }
@@ -19,13 +19,17 @@ const SightingCard = ({sightings, toUpdate, toDelete}) => {
     return (
     
         <div className='sighting-card'>
-        <Card>
-            <Card.Body>
-            <Card.Title>{sightings.individual} {formattedSightTime} {sightings.location} {sightings.healthstatus}</Card.Title>
+            <div>
+                <p>{sightings.individual} spotted on</p>
+                <p>{formattedSightTime}</p>
+                <p>Location: {sightings.location}</p>
+                <p>{sightings.healthstatus ? 'Animal in good health' : 'Animal not in good health'}</p>
+
+            </div>
+            <div className="sighting-card-buttons">
             <Button variant="outline-danger" onClick={()=>{onDelete(student)}} style={{padding: '0.6em', marginRight:'0.9em'}}><ioicons.IoTrash/></Button>
             <Button variant="outline-info" onClick={()=>{onUpdate(student)}} style={{padding: '0.6em'}}> <ioicons.IoSync/></Button>
-            </Card.Body>
-        </Card>
+            </div>
         </div>
     )
 
