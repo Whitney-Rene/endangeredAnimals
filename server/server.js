@@ -36,7 +36,21 @@ app.get('/api/individuals', async (req, res) => {
 });
 
 // create the get request for students in the endpoint '/api/sightings'
+//update
+//SELECT * FROM individuals INNER JOIN sightings ON individuals.id = sightings.individual INNER JOIN species ON individuals.species = species.id;
+//SELECT individuals.nickname, species.commonname, sightings.sighttime, sightings.location, sightings.healthstatus FROM individuals INNER JOIN sightings ON individuals.id = sightings.individual INNER JOIN species ON individuals.species = species.id;
 app.get('/api/sightings', async (req, res) => {
+    try {
+        const { rows: sightings } = await db.query("SELECT * FROM individuals INNER JOIN sightings ON individuals.id = sightings.individual");
+        console.log('inside server', sightings);
+        res.send(sightings);
+    } catch (e) {
+        return res.status(400).json({ e });
+    }
+});
+
+
+app.get('/api/nickname-join', async (req, res) => {
     try {
         const { rows: sightings } = await db.query("SELECT * FROM sightings");
         res.send(sightings);

@@ -24,8 +24,9 @@ const SightingCard = ({sightings, toUpdate, toDelete}) => {
     
         <div className='sighting-card'>
             <div>
-                <p>{sightings.individual} spotted on</p>
+                <p>{sightings.species} spotted on</p>
                 <p>{formattedSightTime}</p>
+                <p>{sightings.nickname}</p>
                 <p>Location: {sightings.location}</p>
                 <p>{sightings.healthstatus ? 'Animal in good health' : 'Animal not in good health'}</p>
 
