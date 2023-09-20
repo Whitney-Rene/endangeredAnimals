@@ -42,7 +42,7 @@ app.get('/api/individuals', async (req, res) => {
 //SELECT individuals.nickname, species.commonname, sightings.sighttime, sightings.location, sightings.healthstatus FROM individuals INNER JOIN sightings ON individuals.id = sightings.individual INNER JOIN species ON individuals.species = species.id;
 app.get('/api/sightings', async (req, res) => {
     try {
-        const { rows: sightings } = await db.query("SELECT individuals.nickname, species.commonname, species.sciname, sightings.sighttime, sightings.location, sightings.healthstatus FROM individuals INNER JOIN sightings ON individuals.id = sightings.individual INNER JOIN species ON individuals.species = species.id;");
+        const { rows: sightings } = await db.query("SELECT indivAnimals.nickname, species.commonname, species.sciname, sightings.sighttime, sightings.location, sightings.healthstatus FROM indivAnimals INNER JOIN sightings ON indivAnimals.id = sightings.individual INNER JOIN species ON indivAnimals.species = species.id;");
         console.log('inside server', sightings);
         res.send(sightings);
     } catch (e) {
