@@ -18,6 +18,7 @@ const ListSightings = () => {
         fetch("http://localhost:8080/api/sightings")
             .then((response) => response.json())
             .then((sightings) => {
+                console.log('inside the api call', sightings[0]);
                 setSightings(sightings);
             });
     }
@@ -65,16 +66,15 @@ const ListSightings = () => {
     return (
         <div className="mybody">
         <div className="list-sightings">
-            <h2>Endangered Animals</h2>
-            <ResponsiveMasonry
-                columnsCountBreakPoints={{350: 1, 750: 2, 900: 3}}
+            {/* <ResponsiveMasonry
+                columnsCountBreakPoints={{350: 3, 750: 2, 900: 1}}
             >
-            <Masonry>
+            <Masonry> */}
                 {sightings.map((sighting) => {
                     return <SightingCard key={sighting.id} sightings={sighting} toDelete={onDelete} toUpdate={onUpdate} />
                 })}
-            </Masonry>
-            </ResponsiveMasonry>
+            {/* </Masonry>
+            </ResponsiveMasonry> */}
         </div>
         {/* <MyForm key={editingStudent ? editingStudent.id : null} onSaveStudent={onSaveStudent} editingStudent={editingStudent} onUpdateStudent={updateStudent} /> */}
         </div>
@@ -83,3 +83,5 @@ const ListSightings = () => {
 
 
 export default ListSightings
+
+// columnsCountBreakPoints={{350: 1, 750: 2, 900: 3}}

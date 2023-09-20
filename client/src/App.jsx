@@ -8,7 +8,10 @@ function App() {
 
   return (
     <div className="App">
-      {/* <MyNavBar /> */}
+      <h2>Ζώα υπό εξαφάνιση</h2>
+      <button>See all our SPECIES</button>
+      <button>See all our INDIVIDUAL ANIMALS</button>
+      <button>ADD A SIGHTING</button>
       <ListSightings />
 
     </div>
@@ -16,3 +19,6 @@ function App() {
 }
 
 export default App
+
+{/* <MyNavBar /> */}
+

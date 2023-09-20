@@ -1,4 +1,6 @@
 .list-sightings {
-    max-width: 1200px;
-    margin: 0 auto;
+    /* max-width: 1200px;
+    margin: 0 auto; */
+    /* display: grid; */
+    /* grid-template-columns: repeat(3, 1fr); /* Adjust the column widths as needed */  
 }
