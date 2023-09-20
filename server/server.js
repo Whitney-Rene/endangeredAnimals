@@ -18,7 +18,8 @@ app.get('/', (req, res) => {
 // create the get request for students in the endpoint '/api/species'
 app.get('/api/species', async (req, res) => {
     try {
-        const { rows: species } = await db.query("SELECT * FROM species");
+        const { rows: species } = await db.query("SELECT species.commonname, species.sciname FROM species");
+        console.log('inside server', species);
         res.send(species);
     } catch (e) {
         return res.status(400).json({ e });

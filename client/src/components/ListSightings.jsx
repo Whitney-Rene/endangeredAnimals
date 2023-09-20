@@ -9,6 +9,8 @@ const ListSightings = () => {
 
     // this is my original state with an array of students 
     const [sightings, setSightings] = useState([]);
+    const [species, setSpecies] = useState([]);
+    const [individuals, setIndividuals] = useState([]);
 
     //this is the state needed for the UpdateRequest
     //const [editingStudent, setEditingStudent] = useState(null)
@@ -23,59 +25,77 @@ const ListSightings = () => {
             });
     }
 
+    const loadSpecies = () => {
+        fetch("http://localhost:8080/api/species")
+            .then((response) => response.json())
+            .then((species) => {
+                console.log("frontendSpecies", species);
+                setSpecies(species);
+            });
+    }
+
+    const loadIndividualAnimals = (speciesId) => {
+        fetch("http://localhost:8080/api/individuals")
+        .then((response) => response.json())
+        .then((individuals) => {
+            console.log("frontendSpecies", individuals);
+            setIndividuals
+        });
+    }
+
     useEffect(() => {
         loadSightings();
+        loadSpecies();
     }, []);
     //[sightings]
 
-    const onSaveStudent = (newStudent) => {
-        //console.log(newStudent, "From the parent - List of Students");
-        setStudents((students) => [...students, newStudent]);
-    }
+    // const onSaveStudent = (newStudent) => {
+    //     //console.log(newStudent, "From the parent - List of Students");
+    //     setStudents((students) => [...students, newStudent]);
+    // }
 
 
-    //A function to control the update in the parent (student component)
-    const updateStudent = (savedStudent) => {
-        // console.log("Line 29 savedStudent", savedStudent);
-        // This function should update the whole list of students - 
-        loadStudents();
-    }
+    // //A function to control the update in the parent (student component)
+    // const updateStudent = (savedStudent) => {
+    //     // console.log("Line 29 savedStudent", savedStudent);
+    //     // This function should update the whole list of students - 
+    //     loadStudents();
+    // }
 
-    //A function to handle the Delete funtionality
-    const onDelete = (student) => {
-        //console.log(student, "delete method")
-        return fetch(`http://localhost:8080/api/students/${student.id}`, {
-            method: "DELETE"
-        }).then((response) => {
-            //console.log(response);
-            if (response.ok) {
-                loadStudents();
-            }
-        })
-    }
+    // //A function to handle the Delete funtionality
+    // const onDelete = (student) => {
+    //     //console.log(student, "delete method")
+    //     return fetch(`http://localhost:8080/api/students/${student.id}`, {
+    //         method: "DELETE"
+    //     }).then((response) => {
+    //         //console.log(response);
+    //         if (response.ok) {
+    //             loadStudents();
+    //         }
+    //     })
+    // }
 
-    //A function to handle the Update functionality
-    const onUpdate = (toUpdateStudent) => {
-        //console.log(toUpdateStudent);
-        setEditingStudent(toUpdateStudent);
+    // //A function to handle the Update functionality
+    // const onUpdate = (toUpdateStudent) => {
+    //     //console.log(toUpdateStudent);
+    //     setEditingStudent(toUpdateStudent);
 
-    }
+    // }
 
 
 
     return (
         <div className="mybody">
-        <div className="list-sightings">
-            {/* <ResponsiveMasonry
-                columnsCountBreakPoints={{350: 3, 750: 2, 900: 1}}
-            >
-            <Masonry> */}
+            <div className="list-sightings">
                 {sightings.map((sighting) => {
-                    return <SightingCard key={sighting.id} sightings={sighting} toDelete={onDelete} toUpdate={onUpdate} />
+                    return <SightingCard key={sighting.id} sightings={sighting}/>
                 })}
-            {/* </Masonry>
-            </ResponsiveMasonry> */}
-        </div>
+            </div>
+            <div className='list-species'>
+                {species.map((speciesItem, index) => (
+                    <li><button onClick={loadIndividualAnimals} key={index}>{speciesItem.commonname}</button> scientific name: {speciesItem.sciname} </li>
+                ))}
+            </div>
         {/* <MyForm key={editingStudent ? editingStudent.id : null} onSaveStudent={onSaveStudent} editingStudent={editingStudent} onUpdateStudent={updateStudent} /> */}
         </div>
     );
@@ -85,3 +105,4 @@ const ListSightings = () => {
 export default ListSightings
 
 // columnsCountBreakPoints={{350: 1, 750: 2, 900: 3}}
+// return <SightingCard key={sighting.id} sightings={sighting} toDelete={onDelete} toUpdate={onUpdate} />
