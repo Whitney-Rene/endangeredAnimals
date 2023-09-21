@@ -15,38 +15,64 @@ app.get('/', (req, res) => {
     res.json({ message: 'Hola, from My template ExpressJS with React-Vite' });
 });
 
+//create an endpoint to a join table in database, bring info in an array of objects
+app.get('/api/sightingsJoin', async (req, res) => {
+    try {
+        const { rows: sightings } = await db.query("SELECT indivAnimals.nickname, species.commonname, species.sciname, sightings.sighttime, sightings.location, sightings.healthstatus FROM indivAnimals INNER JOIN sightings ON indivAnimals.id = sightings.individual INNER JOIN species ON indivAnimals.species = species.id;");
+        console.log('inside server', sightings);
+        res.send(sightings);
+    } catch (e) {
+        return res.status(400).json({ e });
+    }
+});
+
 // create the get request for students in the endpoint '/api/species'
 app.get('/api/species', async (req, res) => {
     try {
-        const { rows: species } = await db.query("SELECT species.commonname, species.sciname FROM species");
-        console.log('inside server', species);
+        const { rows: species } = await db.query("SELECT species.commonname, species.sciname, species.id FROM species");
+        // console.log('inside server', species);
         res.send(species);
     } catch (e) {
         return res.status(400).json({ e });
     }
 });
 
+// const {title} = req.query;
+// // console.log(req.query);
+// //try is my promise 
+// try {
+//     if(title){
+//     //server talking to database, please find any title with these search words
+//     const { rows: events } = await db.query(`SELECT * FROM events WHERE title ILIKE '%${title}%'`); 
+//     //sever talking to client, send back those events with search words
+//     res.send(events); 
+//     } 
+//     //when user visit home link, show all events or when search bar is empty
+//     else {
+//     const { rows: events } = await db.query('SELECT * FROM events');
+//     // console.log('In the server', events)
+//     res.send(events);
+//     }
+
 // create the get request for students in the endpoint '/api/individuals'
 app.get('/api/individuals', async (req, res) => {
+    //:speciesId => params
+    const {species} = req.query;
+    console.log({species});
     try {
-        const { rows: individuals } = await db.query("SELECT * FROM indivanimals");
-        res.send(individuals);
-    } catch (e) {
-        return res.status(400).json({ e });
-    }
-});
+        if(species) {
 
-// create the get request for students in the endpoint '/api/sightings'
-//update
-//SELECT * FROM individuals INNER JOIN sightings ON individuals.id = sightings.individual
-//SELECT * FROM individuals INNER JOIN sightings ON individuals.id = sightings.individual INNER JOIN species ON individuals.species = species.id;
-//SELECT individuals.nickname, species.commonname, sightings.sighttime, sightings.location, sightings.healthstatus FROM individuals INNER JOIN sightings ON individuals.id = sightings.individual INNER JOIN species ON individuals.species = species.id;
-app.get('/api/sightings', async (req, res) => {
-    try {
-        const { rows: sightings } = await db.query("SELECT indivAnimals.nickname, species.commonname, species.sciname, sightings.sighttime, sightings.location, sightings.healthstatus FROM indivAnimals INNER JOIN sightings ON indivAnimals.id = sightings.individual INNER JOIN species ON indivAnimals.species = species.id;");
-        console.log('inside server', sightings);
-        res.send(sightings);
-    } catch (e) {
+            const { rows: indivAnimals } = await db.query(`SELECT * FROM indivanimals WHERE species=${species}`);
+            console.log({indivAnimals})
+            res.send(indivAnimals);
+        }
+
+        else {
+            const { rows: indivanimals } = await db.query("SELECT * FROM indivanimals");
+            res.send(indivanimals);
+        }
+    }
+     catch (e) {
         return res.status(400).json({ e });
     }
 });
@@ -124,3 +150,9 @@ app.get('/api/nickname-join', async (req, res) => {
 app.listen(PORT, () => {
     console.log(`Hola, Server listening on ${PORT}`);
 });
+
+// create the get request for students in the endpoint '/api/sightings'
+//update
+//SELECT * FROM individuals INNER JOIN sightings ON individuals.id = sightings.individual
+//SELECT * FROM individuals INNER JOIN sightings ON individuals.id = sightings.individual INNER JOIN species ON individuals.species = species.id;
+//SELECT individuals.nickname, species.commonname, sightings.sighttime, sightings.location, sightings.healthstatus FROM individuals INNER JOIN sightings ON individuals.id = sightings.individual INNER JOIN species ON individuals.species = species.id;

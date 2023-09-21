@@ -7,18 +7,17 @@ import './SightingCard.css';
 
 
 const SightingCard = ({sightings, toUpdate, toDelete}) => {
-    
-    // console.log(sightings);
-    
+
+    //creates a variable and formats the sightings value at sightime to readable date and time
     const formattedSightTime = format(new Date(sightings.sighttime), 'MMMM dd, yyyy @ h:mm a');
     
-    const onUpdate = (toUpdateStudent) => {
-        toUpdate(toUpdateStudent)
-    }
+    // const onUpdate = (toUpdateStudent) => {
+    //     toUpdate(toUpdateStudent)
+    // }
 
-    const onDelete = (toDeleteStudent) => {
-        toDelete(toDeleteStudent)
-    }
+    // const onDelete = (toDeleteStudent) => {
+    //     toDelete(toDeleteStudent)
+    // }
 
     return (
     

@@ -2,34 +2,30 @@ import React, { useState, useEffect } from 'react'
 // import * as ioicons from 'react-icons/io5'
 // import MyForm from './Form';
 import SightingCard from './SightingCard';
-import Masonry, {ResponsiveMasonry} from "react-responsive-masonry";
 import './ListSightings.css'
 
 const ListSightings = () => {
 
-    // this is my original state with an array of students 
+    // state
     const [sightings, setSightings] = useState([]);
     const [species, setSpecies] = useState([]);
     const [individuals, setIndividuals] = useState([]);
 
-    //this is the state needed for the UpdateRequest
-    //const [editingStudent, setEditingStudent] = useState(null)
-
+    // this function calls an api a bring the info from the database here, save the data (in an array of objects) as state
     const loadSightings = () => {
-        // A function to fetch the list of students that will be load anytime that list change
-        fetch("http://localhost:8080/api/sightings")
+        fetch("http://localhost:8080/api/sightingsJoin")
             .then((response) => response.json())
             .then((sightings) => {
-                // console.log('inside the api call', sightings[0]);
                 setSightings(sightings);
             });
     }
 
+    // this function calls an api and brings info from species table, save data (an array of objects) as state
     const loadSpecies = () => {
         fetch("http://localhost:8080/api/species")
             .then((response) => response.json())
             .then((species) => {
-                // console.log("frontendSpecies", species);
+                console.log("frontendSpecies", species);
                 setSpecies(species);
             });
     }
@@ -38,11 +34,11 @@ const ListSightings = () => {
     //url param specific ind  /valueofid
     //single endpoint that optionally supports specific query
     const loadIndividualAnimals = (speciesId) => {
-        fetch("http://localhost:8080/api/individuals?speciesId="+speciesId)
+        fetch(`http://localhost:8080/api/individuals?species=${speciesId}`)
         .then((response) => response.json())
-        .then((individuals) => {
-            console.log("frontendIndividuals", individuals);
-            setIndividuals(individuals)
+        .then((indivAnimals) => {
+            console.log("loadIndividualsAminals", indivAnimals);
+            setIndividuals(indivAnimals)
         });
     }
 
@@ -52,6 +48,65 @@ const ListSightings = () => {
     }, []);
     //[sightings]
 
+    //lines 50-51
+
+    return (
+        <div className="mybody">
+
+            <div className="list-sightings">
+                {sightings.map((sightingItem) => {
+                    return <SightingCard key={sightingItem.id} sightings={sightingItem}/>
+                })}
+            </div>
+
+            <div className='list-species'>
+
+                {/* <h6>Click on a Species Below to view Individual Animals:</h6> */}
+
+                {/* {species.map((speciesItem) => (
+  <div key={speciesItem.id}>
+    <button onClick={() => setSelectedSpeciesId(speciesItem.id)}>
+      {speciesItem.commonname}
+    </button>
+    
+    {individuals
+      .filter((individualsItem) => individualsItem.speciesId === speciesItem.id)
+      .map((filteredIndividual, index) => (
+        <div key={index}>{filteredIndividual.nickname}</div>
+      ))}
+  </div>
+))} */}
+
+
+                {species.map((speciesItem, index) => (
+                    <li>
+                        <button onClick={() => loadIndividualAnimals(speciesItem.id)} key={index}>{speciesItem.commonname}</button>
+
+                    </li>
+                ))}
+                {
+                    individuals.length > 0 ? 
+                    individuals.map((individualsItem, indexOne) => <div key={indexOne}>{individualsItem.nickname}</div>)
+                    : null
+                }
+                <button className='sightings-button'>ADD A SIGHTING</button>
+
+            </div>
+
+
+        {/* <MyForm key={editingStudent ? editingStudent.id : null} onSaveStudent={onSaveStudent} editingStudent={editingStudent} onUpdateStudent={updateStudent} /> */}
+
+        </div>
+    );
+}
+
+
+export default ListSightings
+
+// columnsCountBreakPoints={{350: 1, 750: 2, 900: 3}}
+// return <SightingCard key={sighting.id} sightings={sighting} toDelete={onDelete} toUpdate={onUpdate} />
+
+//line 50 - 51
     // const onSaveStudent = (newStudent) => {
     //     //console.log(newStudent, "From the parent - List of Students");
     //     setStudents((students) => [...students, newStudent]);
@@ -84,39 +139,3 @@ const ListSightings = () => {
     //     setEditingStudent(toUpdateStudent);
 
     // }
-
-
-
-    return (
-        <div className="mybody">
-
-            <div className="list-sightings">
-                {sightings.map((sighting) => {
-                    return <SightingCard key={sighting.id} sightings={sighting}/>
-                })}
-            </div>
-
-            <div className='list-species'>
-
-                {/* <h6>Click on a Species Below to view Individual Animals:</h6> */}
-
-                {species.map((speciesItem, index) => (
-                    <li><button onClick={loadIndividualAnimals} key={index}>{speciesItem.commonname}</button></li>
-                ))}
-
-                <button className='sightings-button'>ADD A SIGHTING</button>
-
-            </div>
-
-
-        {/* <MyForm key={editingStudent ? editingStudent.id : null} onSaveStudent={onSaveStudent} editingStudent={editingStudent} onUpdateStudent={updateStudent} /> */}
-
-        </div>
-    );
-}
-
-
-export default ListSightings
-
-// columnsCountBreakPoints={{350: 1, 750: 2, 900: 3}}
-// return <SightingCard key={sighting.id} sightings={sighting} toDelete={onDelete} toUpdate={onUpdate} />
