@@ -8,7 +8,7 @@ import './SightingCard.css';
 
 const SightingCard = ({sightings, toUpdate, toDelete}) => {
     
-    console.log(sightings);
+    // console.log(sightings);
     
     const formattedSightTime = format(new Date(sightings.sighttime), 'MMMM dd, yyyy @ h:mm a');
     
@@ -31,10 +31,10 @@ const SightingCard = ({sightings, toUpdate, toDelete}) => {
 
             </div>
 
-            <div className="sighting-card-buttons">
+            {/* <div className="sighting-card-buttons">
                 <Button variant="outline-danger" onClick={()=>{onDelete(student)}} style={{padding: '0.6em', marginRight:'0.9em'}}><ioicons.IoTrash/></Button>
                 <Button variant="outline-info" onClick={()=>{onUpdate(student)}} style={{padding: '0.6em'}}> <ioicons.IoSync/></Button>
-            </div>
+            </div> */}
 
         </div>
     )

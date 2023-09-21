@@ -9,10 +9,16 @@ function App() {
 
   return (
     <div className="App">
-      <h2>Ζώα υπό εξαφάνιση</h2>
-      <button>See all INDIVIDUAL ANIMALS</button>
-      <button>ADD A SIGHTING</button>
-      <ListSightings />
+
+      <div className='photo'>
+        <img src="https://www.iucn.org/sites/default/files/content/images/2021/african_savanna_elephant_annabel_wynyard.jpeg"></img>
+      </div>
+
+      <h2>endangeredAnimals</h2>
+
+      <div className='sightings'>
+        <ListSightings />
+      </div>
 
     </div>
   )

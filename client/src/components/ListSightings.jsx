@@ -20,7 +20,7 @@ const ListSightings = () => {
         fetch("http://localhost:8080/api/sightings")
             .then((response) => response.json())
             .then((sightings) => {
-                console.log('inside the api call', sightings[0]);
+                // console.log('inside the api call', sightings[0]);
                 setSightings(sightings);
             });
     }
@@ -29,17 +29,20 @@ const ListSightings = () => {
         fetch("http://localhost:8080/api/species")
             .then((response) => response.json())
             .then((species) => {
-                console.log("frontendSpecies", species);
+                // console.log("frontendSpecies", species);
                 setSpecies(species);
             });
     }
 
+    //query param ?key=value
+    //url param specific ind  /valueofid
+    //single endpoint that optionally supports specific query
     const loadIndividualAnimals = (speciesId) => {
-        fetch("http://localhost:8080/api/individuals")
+        fetch("http://localhost:8080/api/individuals?speciesId="+speciesId)
         .then((response) => response.json())
         .then((individuals) => {
-            console.log("frontendSpecies", individuals);
-            setIndividuals
+            console.log("frontendIndividuals", individuals);
+            setIndividuals(individuals)
         });
     }
 
@@ -86,17 +89,26 @@ const ListSightings = () => {
 
     return (
         <div className="mybody">
+
             <div className="list-sightings">
                 {sightings.map((sighting) => {
                     return <SightingCard key={sighting.id} sightings={sighting}/>
                 })}
             </div>
+
             <div className='list-species'>
+
                 {species.map((speciesItem, index) => (
-                    <li><button onClick={loadIndividualAnimals} key={index}>{speciesItem.commonname}</button> scientific name: {speciesItem.sciname} </li>
+                    <li><button onClick={loadIndividualAnimals} key={index}>{speciesItem.commonname}</button></li>
                 ))}
+
+                <button className='sightings-button'>ADD A SIGHTING</button>
+
             </div>
+
+
         {/* <MyForm key={editingStudent ? editingStudent.id : null} onSaveStudent={onSaveStudent} editingStudent={editingStudent} onUpdateStudent={updateStudent} /> */}
+
         </div>
     );
 }

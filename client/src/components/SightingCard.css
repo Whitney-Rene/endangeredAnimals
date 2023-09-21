@@ -1,5 +1,9 @@
 .sighting-card {
-    color: lightcoral;
-    border: 1px dotted #ccc;
-    display: flex
+    color: burlywood;
+    /* font-weight: bolder; */
+    text-align: center;
+    padding: 10px;
+    background-color: gainsboro;
+    margin: 10px 0; 
+    /* border: 5px solid rgb(188, 82, 82); */
 }
