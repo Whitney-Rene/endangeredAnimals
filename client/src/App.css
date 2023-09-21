@@ -78,11 +78,21 @@ img {
 }
 
 body {
-  color: wheat;
+  color: rgb(242, 225, 192);
 }
 
 h2 {
   text-align: center;
   padding-top: 10px;
   padding-bottom: 10px;
+}
+
+h6 {
+  color: rgb(219, 214, 214);
+  font-size: small;
+  text-align: center;
+  border: 3px dotted white;
+  border-radius: 10px;
+  color: burlywood;
+  background-color: antiquewhite;
 }

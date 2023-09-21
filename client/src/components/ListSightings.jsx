@@ -98,6 +98,8 @@ const ListSightings = () => {
 
             <div className='list-species'>
 
+                {/* <h6>Click on a Species Below to view Individual Animals:</h6> */}
+
                 {species.map((speciesItem, index) => (
                     <li><button onClick={loadIndividualAnimals} key={index}>{speciesItem.commonname}</button></li>
                 ))}
