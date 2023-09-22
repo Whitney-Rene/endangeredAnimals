@@ -30,8 +30,6 @@ const ListSightings = () => {
             });
     }
 
-    //query param ?key=value
-    //url param specific ind  /valueofid
     //single endpoint that optionally supports specific query
     const loadIndividualAnimals = (speciesId) => {
         fetch(`http://localhost:8080/api/individuals?species=${speciesId}`)
@@ -62,21 +60,6 @@ const ListSightings = () => {
             <div className='list-species'>
 
                 {/* <h6>Click on a Species Below to view Individual Animals:</h6> */}
-
-                {/* {species.map((speciesItem) => (
-  <div key={speciesItem.id}>
-    <button onClick={() => setSelectedSpeciesId(speciesItem.id)}>
-      {speciesItem.commonname}
-    </button>
-    
-    {individuals
-      .filter((individualsItem) => individualsItem.speciesId === speciesItem.id)
-      .map((filteredIndividual, index) => (
-        <div key={index}>{filteredIndividual.nickname}</div>
-      ))}
-  </div>
-))} */}
-
 
                 {species.map((speciesItem, index) => (
                     <li>

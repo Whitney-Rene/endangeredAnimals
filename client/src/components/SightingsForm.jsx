@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 
-function SpeciesButton () {
+function SightingsForm () {
 
     // const [species, setSpecies] = useState([]);
 
@@ -26,4 +26,4 @@ function SpeciesButton () {
     )
 }
 
-export default SpeciesButton
+export default SightingsForm

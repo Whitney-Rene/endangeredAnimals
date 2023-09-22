@@ -2,7 +2,7 @@ import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import MyNavBar from './components/Navbar'
 import ListSightings from './components/ListSightings'
-import SpeciesButton from './components/SpeciesButton';
+import SightingsForm from './components/SightingsForm';
 
 
 function App() {

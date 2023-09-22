@@ -37,22 +37,6 @@ app.get('/api/species', async (req, res) => {
     }
 });
 
-// const {title} = req.query;
-// // console.log(req.query);
-// //try is my promise 
-// try {
-//     if(title){
-//     //server talking to database, please find any title with these search words
-//     const { rows: events } = await db.query(`SELECT * FROM events WHERE title ILIKE '%${title}%'`); 
-//     //sever talking to client, send back those events with search words
-//     res.send(events); 
-//     } 
-//     //when user visit home link, show all events or when search bar is empty
-//     else {
-//     const { rows: events } = await db.query('SELECT * FROM events');
-//     // console.log('In the server', events)
-//     res.send(events);
-//     }
 
 // create the get request for students in the endpoint '/api/individuals'
 app.get('/api/individuals', async (req, res) => {
@@ -77,12 +61,20 @@ app.get('/api/individuals', async (req, res) => {
     }
 });
 
-
-app.get('/api/nickname-join', async (req, res) => {
+//endpoint for post request
+//INSERT INTO sightings (sightTime, location, healthStatus, email, recCreatedAt, individual) VALUES ('2023-02-14', 'South Africa', false, 'vchambers@gmail.com', current_timestamp, (SELECT id from indivAnimals WHERE nickname = '???'));
+app.post('/api/sightings', async (req, res) => {
     try {
-        const { rows: sightings } = await db.query("SELECT * FROM sightings");
-        res.send(sightings);
+        const { sighttime, location, healthstatus, email, reccreatedat, individual } = req.body;
+        const result = await db.query(
+            "INSERT INTO sightings (sighttime, location, healthstatus, email, reccreatedat, individual) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
+            [sighttime, location, healthstatus, email, reccreatedat, /*??*/]
+        );
+        let dbResponse = result.rows[0];
+        console.log(dbResponse)
+        res.json(dbResponse);
     } catch (e) {
+        console.log(error);
         return res.status(400).json({ e });
     }
 });
