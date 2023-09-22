@@ -20,9 +20,9 @@ function App() {
         <ListSightings />
       </div>
 
-      <div className='submit-sighting'>
+      {/* <div className='submit-sighting'>
         <SightingsForm />
-      </div>
+      </div> */}
 
     </div>
   )

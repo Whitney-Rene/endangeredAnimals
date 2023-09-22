@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 // import * as ioicons from 'react-icons/io5'
 // import MyForm from './Form';
 import SightingCard from './SightingCard';
+import SightingsForm from './SightingsForm';
 import './ListSightings.css'
 
 const ListSightings = () => {
@@ -16,6 +17,7 @@ const ListSightings = () => {
         fetch("http://localhost:8080/api/sightingsJoin")
             .then((response) => response.json())
             .then((sightings) => {
+                console.log("SightingtfromJoin", sightings);
                 setSightings(sightings);
             });
     }
@@ -25,7 +27,7 @@ const ListSightings = () => {
         fetch("http://localhost:8080/api/species")
             .then((response) => response.json())
             .then((species) => {
-                console.log("frontendSpecies", species);
+                // console.log("frontendSpecies", species);
                 setSpecies(species);
             });
     }
@@ -39,6 +41,21 @@ const ListSightings = () => {
             setIndividuals(indivAnimals)
         });
     }
+
+    const handlePostRequest = (data) => {
+
+        fetch("http://localhost:8080/api/sightings", {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        })
+          .then((reponse) => reponse.json())
+          .then((data) => {
+            console.log("Inside the post line 28", data)
+            setSightings([...sightings, data])
+          })
+    
+      };
 
     useEffect(() => {
         loadSightings();
@@ -72,7 +89,8 @@ const ListSightings = () => {
                     individuals.map((individualsItem, indexOne) => <div key={indexOne}>{individualsItem.nickname}</div>)
                     : null
                 }
-                <button className='sightings-button'>ADD A SIGHTING</button>
+                {/* <button className='sightings-button'>ADD A SIGHTING</button> */}
+                <SightingsForm post={handlePostRequest} loadSightings={loadSightings}/>
 
             </div>
 

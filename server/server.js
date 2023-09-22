@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
 app.get('/api/sightingsJoin', async (req, res) => {
     try {
         const { rows: sightings } = await db.query("SELECT indivAnimals.nickname, species.commonname, species.sciname, sightings.sighttime, sightings.location, sightings.healthstatus FROM indivAnimals INNER JOIN sightings ON indivAnimals.id = sightings.individual INNER JOIN species ON indivAnimals.species = species.id;");
-        console.log('inside server', sightings);
+        // console.log('inside server', sightings);
         res.send(sightings);
     } catch (e) {
         return res.status(400).json({ e });
@@ -47,7 +47,7 @@ app.get('/api/individuals', async (req, res) => {
         if(species) {
 
             const { rows: indivAnimals } = await db.query(`SELECT * FROM indivanimals WHERE species=${species}`);
-            console.log({indivAnimals})
+            // console.log({indivAnimals})
             res.send(indivAnimals);
         }
 
@@ -62,19 +62,33 @@ app.get('/api/individuals', async (req, res) => {
 });
 
 //endpoint for post request
-//INSERT INTO sightings (sightTime, location, healthStatus, email, recCreatedAt, individual) VALUES ('2023-02-14', 'South Africa', false, 'vchambers@gmail.com', current_timestamp, (SELECT id from indivAnimals WHERE nickname = '???'));
+//INSERT INTO sightings (sightTime, location, healthStatus, email, recCreatedAt, individual) VALUES ('2023-02-14', 'South Africa', false, 'vchambers@gmail.com', current_timestamp, (SELECT id from indivAnimals WHERE nickname = 'WHAT USER CHOOSES FROM DROPDOWN MENU'));
 app.post('/api/sightings', async (req, res) => {
     try {
-        const { sighttime, location, healthstatus, email, individual } = req.body;
+        const { sighttime, location, healthstatus, email, nickname } = req.body;
+
+       
+        const findIndividual = await db.query(
+            "SELECT id FROM indivanimals WHERE nickname = $1", [nickname]
+        )
+        let id = findIndividual.rows[0].id
         const result = await db.query(
-            "INSERT INTO sightings (sighttime, location, healthstatus, email, individual) VALUES ($1, $2, $3, $4, $5,) RETURNING *",
-            [sighttime, location, healthstatus, email, /*??*/]
+
+            "INSERT INTO sightings (sighttime, location, healthstatus, email, individual) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+            [sighttime, location, healthstatus, email, id]
+            
+            // `INSERT INTO sightings (sighttime, location, healthstatus, email, (SELECT id from indivAnimals WHERE nickname = ${individual})) VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+            // [sighttime, location, healthstatus, email, `(SELECT id from indivAnimals WHERE nickname = ${individual}`]
+            
         );
+
+        let returnedSighting = {id: result.rows[0]}
+
         let dbResponse = result.rows[0];
         console.log(dbResponse)
         res.json(dbResponse);
     } catch (e) {
-        console.log(error);
+        console.log(e);
         return res.status(400).json({ e });
     }
 });

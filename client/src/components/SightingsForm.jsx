@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 
-function SightingsForm () {
+function SightingsForm ({post, loadSightings}) {
 //INSERT INTO sightings (sightTime, location, healthStatus, email, recCreatedAt, individual) VALUES ('2023-02-14', 'South Africa', false, 'vchambers@gmail.com', current_timestamp, (SELECT id from indivAnimals WHERE nickname = '???'));
 
     const userSighttime = useRef();
@@ -10,18 +10,23 @@ function SightingsForm () {
     const userNickname = useRef();
 
 const handleSubmit = (e) => {
+
+    
     // "INSERT INTO sightings (sighttime, location, healthstatus, email, individual) VALUES ($1, $2, $3, $4, $5) RETURNING *",
     //[sighttime, location, healthstatus, email, /*??*/]
     e.preventDefault();
-    const userSighting = {sighttime: userSighttime.current?.value, location: userLocation?.current.value, healthstatus: userHealthstatus.current?.value, email: userEmail.current?.value, individual: userNickname.current?.value};
+    const userSighting = {sighttime: userSighttime.current?.value, location: userLocation?.current.value, healthstatus: userHealthstatus.current?.value, email: userEmail.current?.value, nickname: userNickname.current?.value};
 
     console.log(userSighting);
+    post(userSighting);
 
     userSighttime.current.value='';
     userLocation.current.value='';
     userHealthstatus.current.value='';
     userEmail.current.value='';
     userNickname.current.value='';
+
+    window.location = "/";
 
 }
 
@@ -32,13 +37,13 @@ const handleSubmit = (e) => {
         <h2>Create a Sighting:</h2>
             {/* user chooses */}
             <label>Date of Sighting:</label>
-            <input type="text" name="sighttime" required placeholder="YYYY-MM-DD" ref={userSighttime}/>
+            <input type="date" name="sighttime" required placeholder="YYYY-MM-DD" ref={userSighttime}/>
 
             <label>Location of Sighting:</label>
             <input type="text" name="location" required placeholder="Country" ref={userLocation}/>
 
-            <label>Health Status of Animals: "t" for good health OR "f" for bad health</label>
-            <input type="text" name="healthstatus" required placeholder="t or f" ref={userHealthstatus}/>
+            <label>Health Status of Animals: "true" for good health OR "false" for bad health</label>
+            <input type="text" name="healthstatus" required placeholder="true or false" ref={userHealthstatus}/>
 
             <label>What is your email?</label>
             <input type="text" name="email" required placeholder="email?" ref={userEmail}/>
@@ -58,7 +63,7 @@ const handleSubmit = (e) => {
             <div>
             <button className='createEvButt' type="submit">Submit</button> 
             </div>
-            
+
         </form>
         </>
     )
