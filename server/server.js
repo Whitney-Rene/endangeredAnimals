@@ -65,10 +65,10 @@ app.get('/api/individuals', async (req, res) => {
 //INSERT INTO sightings (sightTime, location, healthStatus, email, recCreatedAt, individual) VALUES ('2023-02-14', 'South Africa', false, 'vchambers@gmail.com', current_timestamp, (SELECT id from indivAnimals WHERE nickname = '???'));
 app.post('/api/sightings', async (req, res) => {
     try {
-        const { sighttime, location, healthstatus, email, reccreatedat, individual } = req.body;
+        const { sighttime, location, healthstatus, email, individual } = req.body;
         const result = await db.query(
-            "INSERT INTO sightings (sighttime, location, healthstatus, email, reccreatedat, individual) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
-            [sighttime, location, healthstatus, email, reccreatedat, /*??*/]
+            "INSERT INTO sightings (sighttime, location, healthstatus, email, individual) VALUES ($1, $2, $3, $4, $5,) RETURNING *",
+            [sighttime, location, healthstatus, email, /*??*/]
         );
         let dbResponse = result.rows[0];
         console.log(dbResponse)
