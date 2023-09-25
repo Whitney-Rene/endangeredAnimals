@@ -1,0 +1,21 @@
+button {
+    color: burlywood;
+    background-color: antiquewhite;
+    border-radius: 10px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    border: 2px white;
+}
+
+.sightings-button {
+    margin: 50px 0;
+    border: 3px dotted white;
+}
+
+li {
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ;
+    list-style: none;
+}
+
+.sightings-form {
+    display: inline;
+}
