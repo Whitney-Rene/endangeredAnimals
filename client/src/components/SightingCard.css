@@ -1,10 +1,7 @@
 .sighting-card {
     color: burlywood;
-    /* font-weight: bolder; */
     text-align: center;
     padding: 10px;
     background-color: gainsboro;
     margin: 10px 0; 
-    /* font-style: italic; */
-    /* border: 5px solid rgb(188, 82, 82); */
 }

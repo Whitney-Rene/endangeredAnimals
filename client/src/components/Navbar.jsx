@@ -4,7 +4,7 @@ import Nav from 'react-bootstrap/Nav';
 import Logo from '../assets/BlueTechtonicaWord.png'
 
 
-function MyNavBar(props) {
+function MyNavBar() {
 
   return (
     <>

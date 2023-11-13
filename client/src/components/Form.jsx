@@ -43,7 +43,6 @@ const MyForm = ({ onSaveStudent, editingStudent, onUpdateStudent }) => {
                 return response.json();
             })
             .then((data) => {
-                //console.log("From the post ", data);
                 //I'm sending data to the List of Students (the parent) for updating the list
                 onSaveStudent(data);
                 //this line just for cleaning the form

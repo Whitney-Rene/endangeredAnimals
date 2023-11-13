@@ -1,7 +1,6 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 
 function SightingsForm ({post, loadSightings}) {
-//INSERT INTO sightings (sightTime, location, healthStatus, email, recCreatedAt, individual) VALUES ('2023-02-14', 'South Africa', false, 'vchambers@gmail.com', current_timestamp, (SELECT id from indivAnimals WHERE nickname = '???'));
 
     const userSighttime = useRef();
     const userLocation = useRef();
@@ -11,9 +10,6 @@ function SightingsForm ({post, loadSightings}) {
 
 const handleSubmit = (e) => {
 
-    
-    // "INSERT INTO sightings (sighttime, location, healthstatus, email, individual) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-    //[sighttime, location, healthstatus, email, /*??*/]
     e.preventDefault();
     const userSighting = {sighttime: userSighttime.current?.value, location: userLocation?.current.value, healthstatus: userHealthstatus.current?.value, email: userEmail.current?.value, nickname: userNickname.current?.value};
 
