@@ -8,8 +8,8 @@ function SightingsForm ({post, loadSightings}) {
     const userEmail = useRef();
     const userNickname = useRef();
 
-const handleSubmit = (e) => {
-
+    const handleSubmit = (e) => {
+    
     e.preventDefault();
     const userSighting = {sighttime: userSighttime.current?.value, location: userLocation?.current.value, healthstatus: userHealthstatus.current?.value, email: userEmail.current?.value, nickname: userNickname.current?.value};
 
@@ -24,10 +24,11 @@ const handleSubmit = (e) => {
 
     window.location = "/";
 
-}
+    }
 
     return (
         <>
+        
         <form className='form' onSubmit={handleSubmit}>
         
         <h2>Create a Sighting:</h2>

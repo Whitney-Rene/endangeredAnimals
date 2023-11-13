@@ -1,88 +1,36 @@
---
--- PostgreSQL database dump
---
 
--- Dumped from database version 13.3
--- Dumped by pg_dump version 14.2
+--endAnimals
 
-SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET idle_in_transaction_session_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-SELECT pg_catalog.set_config('search_path', '', false);
-SET check_function_bodies = false;
-SET xmloption = content;
-SET client_min_messages = warning;
-SET row_security = off;
+CREATE DATABASE endAminals;
 
-SET default_tablespace = '';
+\c endAminals;
 
-SET default_table_access_method = heap;
+--create species table
+CREATE TABLE species (id SERIAL PRIMARY KEY, commonName TEXT NOT NULL, sciName TEXT NOT NULL, estNumLiv integer CHECK (estNumLiv >= 0), conStatCode TEXT, recCreatedAt timestamptz);
 
---
--- Name: students; Type: TABLE; Schema: public; Owner: -
---
+--insert species
+INSERT INTO species (commonName, sciName, estNumLiv, conStatCode, recCreatedAt) VALUES ('Giant Panda', 'Ailuropoda melanoleuca', 1864, 'V', current_timestamp);
 
-CREATE TABLE public.students (
-    id integer NOT NULL,
-    firstname character varying(255),
-    lastname character varying(255),
-    is_current boolean
-);
+--create indivAnimals table
+CREATE TABLE indivAnimals (id SERIAL PRIMARY KEY, nickname TEXT NOT NULL, species TEXT NOT NULL, recCreatedAt timestamptz);
 
+--insert indivAnimals
+INSERT INTO indivAnimals (nickname, recCreatedAt, species) VALUES ('Hope Elephant', current_timestamp, (SELECT id FROM species WHERE commonname = 'Elephant'));
 
---
--- Name: students_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
+INSERT INTO indivAnimals (nickname, recCreatedAt, species) VALUES ('Amusaa Tiger', current_timestamp, (SELECT id FROM species WHERE commonname = 'Tiger'));
 
-CREATE SEQUENCE public.students_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
+--create sightings table
+CREATE TABLE sightings (id SERIAL PRIMARY KEY, sightTime DATE, individual TEXT, location TEXT, healthStatus boolean, email TEXT, recCreatedAt timestamptz);
 
+--insert sighting
+INSERT INTO sightings (sightTime, location, healthStatus, email, recCreatedAt, individual) VALUES ('2023-02-14', 'South Africa', false, 'vchambers@gmail.com', current_timestamp, (SELECT id from indivAnimals WHERE nickname = 'Sepo AE'));
 
---
--- Name: students_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
+INSERT INTO sightings (sightTime, location, healthStatus, email, recCreatedAt, individual) VALUES ('2023-02-14', 'South Africa', false, 'vchambers@gmail.com', current_timestamp, (SELECT id from indivAnimals WHERE nickname = 'Tumelo AE'));
 
-ALTER SEQUENCE public.students_id_seq OWNED BY public.students.id;
+--join tables
+SELECT * FROM individuals INNER JOIN species ON individuals.species = species.commonName; 
 
+SELECT sightings.sighttime, individuals.nickname, sightings.location, sightings.healthStatus FROM sightings INNER JOIN individuals ON sightings.individual = individuals.nickname; 
 
---
--- Name: students id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.students ALTER COLUMN id SET DEFAULT nextval('public.students_id_seq'::regclass);
-
-
---
--- Data for Name: students; Type: TABLE DATA; Schema: public; Owner: -
---
-
-COPY public.students (id, firstname, lastname, is_current) FROM stdin;
-\.
-
-
---
--- Name: students_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
---
-
-SELECT pg_catalog.setval('public.students_id_seq', 1, false);
-
-
---
--- Name: students students_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.students
-    ADD CONSTRAINT students_pkey PRIMARY KEY (id);
-
-
---
--- PostgreSQL database dump complete
---
-
+--MENTOR SESSION
+SELECT individuals.nickname FROM individuals INNER JOIN sightings ON individuals.id = sightings.individual;

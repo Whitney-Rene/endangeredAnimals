@@ -14,12 +14,22 @@ const ListSightings = () => {
     // this function calls an api a bring the info from the database here, save the data (in an array of objects) as state
     const loadSightings = () => {
         fetch("http://localhost:8080/api/sightingsJoin")
-            .then((response) => response.json())
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch sightings');
+                }
+                return response.json();
+            })
             .then((sightings) => {
                 console.log("SightingtfromJoin", sightings);
                 setSightings(sightings);
+            })
+            .catch((error) => {
+                console.error('Error fetching sightings:', error);
+                // You can show an error message to the user or handle it as needed
             });
-    }
+    };
+    
 
     // this function calls an api and brings info from species table, save data (an array of objects) as state
     const loadSpecies = () => {
